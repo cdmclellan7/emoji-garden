@@ -1,4 +1,4 @@
-import query from '../index.js';
+import { query } from '../index.js';
 
 const sqlString = `CREATE TABLE IF NOT EXISTS emojis (
     id SERIAL PRIMARY KEY,
