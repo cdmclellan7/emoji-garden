@@ -1,6 +1,6 @@
 import pg from 'pg';
 
-const pool = new pg.Pool({
+export const pool = new pg.Pool({
     user: process.env.PGUSER,
     host: process.env.PGHOST,
     database: process.env.PGDATABASE,
@@ -8,8 +8,6 @@ const pool = new pg.Pool({
     port: process.env.PGPORT,
 });
 
-function query(text, params) {
+export function query(text, params) {
     return pool.query(text, params);
 }
-
-export default query;

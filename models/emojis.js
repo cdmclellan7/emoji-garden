@@ -1,9 +1,15 @@
-import query from '../db/index.js';
+import { query } from '../db/index.js';
 
 /* READ */
 export async function getEmojis() {
     const sqlString = `SELECT * FROM emojis;`;
     const res = await query(sqlString);
+    return res;
+}
+
+export async function getEmojiById(id) {
+    const sqlString = `SELECT * FROM emojis WHERE id = $1;`;
+    const res = query(sqlString, [id]);
     return res;
 }
 
