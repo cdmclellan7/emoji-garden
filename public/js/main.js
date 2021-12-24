@@ -1,11 +1,22 @@
 const garden = document.querySelector("#garden");
 garden.addEventListener("click", plantSeed);
 
-function plantSeed(e) {
+async function plantSeed(e) {
     const xPos = e.x;
     const yPos = e.y;
 
     addSpan(xPos, yPos);
+
+    const data = {
+            code: 127803,
+            xPos: xPos,
+            yPos: yPos
+    };
+    const newEmoji = await fetch('/api/emojis', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
 }
 
 function addSpan(xPos, yPos) {
