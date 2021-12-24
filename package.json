@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node ./bin/www.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "nodemon -r dotenv/config ./bin/www.js",
     "db-create-emojis-table": "node -r dotenv/config ./db/scripts/createEmojisTable.js"
   },
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
+    "jest": "^27.4.5",
     "nodemon": "^2.0.15"
   }
 }
