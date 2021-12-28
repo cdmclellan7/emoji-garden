@@ -1,12 +1,14 @@
+const seedlingEmojiCode = 127793;
+const tomatoEmojiCode = 127813;
+const plantEmojiCode = 127807;
+
 const garden = document.querySelector("#garden");
 garden.addEventListener("click", plantSeed);
 
 async function plantSeed(e) {
     const xPos = e.x;
     const yPos = e.y;
-    const code = 127803
-
-    //addSpan(xPos, yPos, code);
+    const code = seedlingEmojiCode;
 
     const data = {
             code: code,
@@ -21,6 +23,8 @@ async function plantSeed(e) {
     const json = await res.json();
     const newEmoji = json.payload;
     renderEmojis(newEmoji);
+    
+    startGrowing(newEmoji[0].id);
 }
 
 function addSpan(xPos, yPos, code) {
@@ -59,4 +63,24 @@ function renderEmojis(list) {
     list.forEach( (emoji) => {
         addSpan(emoji.x_position, emoji.y_position, emoji.dec_code);
     });
+}
+
+/* TIMER CONTROLS */
+
+function startGrowing(id) {
+    setTimeout( () => maturePlant(id), 5000);
+}
+
+async function maturePlant(id) {
+    const data = {code: plantEmojiCode};
+
+    const res = await fetch(`/api/emojis/${id}`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    });
+
+    const json = await res.json();
+    const newEmoji = json.payload;
+    renderEmojis(newEmoji);
 }
