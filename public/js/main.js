@@ -12,11 +12,12 @@ async function plantSeed(e) {
             xPos: xPos,
             yPos: yPos
     };
-    const newEmoji = await fetch('/api/emojis', {
+    const res = await fetch('/api/emojis', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
-    })
+    });
+    const newEmoji = await res.json();
 }
 
 function addSpan(xPos, yPos) {
@@ -29,4 +30,30 @@ function addSpan(xPos, yPos) {
     newSpan.style.left = xPos - (spanHeight / 2) + 'px';
     newSpan.style.top = yPos - spanHeight + 'px';
     garden.appendChild(newSpan);
+}
+
+
+/* CLEAR AND LOAD GARDEN */
+const clearButton = document.querySelector("#clear-garden");
+const loadButton = document.querySelector("#load-garden");
+
+clearButton.addEventListener("click", clearGarden);
+loadButton.addEventListener("click", loadGarden);
+
+function clearGarden() {
+    garden.innerHTML = "";
+}
+
+async function loadGarden() {
+    const res = await fetch("/api/emojis");
+    const json = await res.json();
+    const emojis = json.payload;
+    
+    renderEmojis(emojis);
+}
+
+function renderEmojis(list) {
+    list.forEach( (emoji) => {
+        addSpan(emoji.x_position, emoji.y_position);
+    });
 }
