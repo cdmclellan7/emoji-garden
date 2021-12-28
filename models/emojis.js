@@ -20,3 +20,11 @@ export async function addEmoji(code, xPos, yPos) {
     const res = await query(sqlString, [code, xPos, yPos]);
     return res;
 }
+
+/* UPDATE */
+export async function updateEmojiCodeById(id, code) {
+    const sqlString = `UPDATE emojis SET dec_code = $1 WHERE id = $2 RETURNING *;`;
+    const res = await query(sqlString, [code, id]);
+    return res;
+
+}

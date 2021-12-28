@@ -24,7 +24,7 @@ describe("GET /api/emojis", () => {
 
 describe("GET /api/emojis/:id", () => {
     it("should respond with {success: true, payload: [the emoji with the id from the req.params]}", async () => {
-        const idParam = 1;
+        const idParam = 17;
         await request(app)
             .get(`/api/emojis/${idParam}`)
             .expect(200)
@@ -54,5 +54,24 @@ describe("POST /api/emojis", () => {
                 const actual = res.body;
                 expect(actual).toStrictEqual(expected);
             })
+    });
+});
+
+describe("PATCH /api/emojis/:id", () => {
+    it("should respond with {success: true, payload: [updated emoji]}", async () => {
+        const id = 20;
+        const input = {code: 127802};
+        await request(app)
+            .patch(`/api/emojis/${id}`)
+            .send(input)
+            .expect(200)
+            .expect( (res) => {
+                const expected = {success: true, payload: [{id: id, 
+                                                            dec_code: input.code,
+                                                            x_position: expect.any(Number),
+                                                            y_position: expect.any(Number)}]};
+                const actual = res.body;
+                expect(actual).toStrictEqual(expected);
+            });
     });
 });

@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { getEmojis, addEmoji, getEmojiById } from "../models/emojis.js";
+import { getEmojis, addEmoji, getEmojiById, updateEmojiCodeById } from "../models/emojis.js";
 
 /* READ */
 router.get("/", async (req, res) => {
@@ -23,6 +23,17 @@ router.post("/", async (req, res) => {
         success: true,
         payload: data.rows
     });
+});
+
+/* UPDATE */
+router.patch("/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    const newCode = req.body.code;
+    const data = await updateEmojiCodeById(id, newCode);
+    res.json({
+        success: true,
+        payload: data.rows
+    })
 });
 
 export default router;
