@@ -4,11 +4,12 @@ garden.addEventListener("click", plantSeed);
 async function plantSeed(e) {
     const xPos = e.x;
     const yPos = e.y;
+    const code = 127803
 
-    addSpan(xPos, yPos);
+    //addSpan(xPos, yPos, code);
 
     const data = {
-            code: 127803,
+            code: code,
             xPos: xPos,
             yPos: yPos
     };
@@ -17,13 +18,15 @@ async function plantSeed(e) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
     });
-    const newEmoji = await res.json();
+    const json = await res.json();
+    const newEmoji = json.payload;
+    renderEmojis(newEmoji);
 }
 
-function addSpan(xPos, yPos) {
+function addSpan(xPos, yPos, code) {
     const newSpan = document.createElement('span');
     newSpan.classList.add('plant');
-    newSpan.innerHTML = `&#127803;`;
+    newSpan.innerHTML = `&#${code};`;
     const spanHeight = 42;
     newSpan.style.fontSize = spanHeight + 'px';
     newSpan.style.position = 'absolute';
@@ -54,6 +57,6 @@ async function loadGarden() {
 
 function renderEmojis(list) {
     list.forEach( (emoji) => {
-        addSpan(emoji.x_position, emoji.y_position);
+        addSpan(emoji.x_position, emoji.y_position, emoji.dec_code);
     });
 }
