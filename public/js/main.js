@@ -27,8 +27,9 @@ async function plantSeed(e) {
     startGrowing(newEmoji[0].id);
 }
 
-function addSpan(xPos, yPos, code) {
+function addSpan(id, xPos, yPos, code) {
     const newSpan = document.createElement('span');
+    newSpan.id = `emoji-${id}`;
     newSpan.classList.add('plant');
     newSpan.innerHTML = `&#${code};`;
     const spanHeight = 42;
@@ -61,8 +62,13 @@ async function loadGarden() {
 
 function renderEmojis(list) {
     list.forEach( (emoji) => {
-        addSpan(emoji.x_position, emoji.y_position, emoji.dec_code);
+        addSpan(emoji.id, emoji.x_position, emoji.y_position, emoji.dec_code);
     });
+}
+
+function clearOneEmoji(id) {
+    const emoji = document.querySelector(`#emoji-${id}`);
+    emoji.remove();
 }
 
 /* TIMER CONTROLS */
@@ -82,5 +88,6 @@ async function maturePlant(id) {
 
     const json = await res.json();
     const newEmoji = json.payload;
+    clearOneEmoji(newEmoji[0].id)
     renderEmojis(newEmoji);
 }
