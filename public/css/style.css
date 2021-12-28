@@ -3,16 +3,18 @@ body {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-    color: #00b7ff;
+#controls-container {
+    display: flex;
+    justify-content: space-around;
 }
 
 .plant {
     cursor: pointer;
+    font-size: 42px;
 }
 
 #garden {
     height: 75%;
-    width: 75%;
+    width: 90%;
     background-color: rgb(126, 231, 126);
 }
