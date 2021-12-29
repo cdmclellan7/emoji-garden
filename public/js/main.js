@@ -42,11 +42,14 @@ function addSpan(id, xPos, yPos, code) {
 
 
 /* CLEAR AND LOAD GARDEN */
+
+/*
 const clearButton = document.querySelector("#clear-garden");
 const loadButton = document.querySelector("#load-garden");
 
 clearButton.addEventListener("click", clearGarden);
 loadButton.addEventListener("click", loadGarden);
+*/
 
 function clearGarden() {
     garden.innerHTML = "";
@@ -91,3 +94,6 @@ async function maturePlant(id) {
     clearOneEmoji(newEmoji[0].id)
     renderEmojis(newEmoji);
 }
+
+/* START PAGE */
+loadGarden();
