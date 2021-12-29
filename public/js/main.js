@@ -98,12 +98,14 @@ const breakTime = 5000 //5 * 60 * 1000;
 
 
 function startGrowing(id, e) {
+    removeTimers();
     const timer = createTimer(e);
     let countSeconds = pomodoroTime / 1000;
     const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
     setTimeout( () => {
         maturePlant(id);
         stopTimer(timer, timerID);
+        timer.innerText += " Click to start a break."
     }, pomodoroTime);
 }
 
@@ -157,6 +159,8 @@ function handleActiveClick(e) {
     const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
     setTimeout( () => {
         stopTimer(timer, timerID);
+        timer.innerText += " Plant a new seed."
+        showSeed();
     }, breakTime);
 }
 
@@ -176,6 +180,10 @@ function moveSeed(e) {
 function stopSeed(e) {
     initialSeed.style.visibility = "hidden";
     plantSeed(e);
+}
+
+function showSeed() {
+    initialSeed.style.visibility = "visible";
 }
 
 /* TIMER AUDIO */
