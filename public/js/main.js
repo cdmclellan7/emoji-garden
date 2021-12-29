@@ -82,7 +82,7 @@ function clearOneEmoji(id) {
 }
 
 /* TIMER CONTROLS */
-const pomodoroTime = 3000;
+const pomodoroTime = 5000 //25 * 60 * 1000;
 
 
 function startGrowing(id, e) {
@@ -119,8 +119,10 @@ function createTimer(e) {
     return timerP;
 }
 
-function decrementTimer(p, time) {
-    p.innerText = time;
+function decrementTimer(p, count) {
+    const seconds = count % 60;
+    const minutes = Math.floor(count / 60);
+    p.innerText = `${minutes} : ${seconds < 10 ? "0" : ""}${seconds}`;
 }
 
 function stopTimer(p, timerID) {
