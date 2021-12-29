@@ -2,8 +2,10 @@ const seedlingEmojiCode = 127793;
 const tomatoEmojiCode = 127813;
 const plantEmojiCode = 127807;
 
+const spanHeight = 42;
+
 const garden = document.querySelector("#garden");
-garden.addEventListener("click", plantSeed);
+//garden.addEventListener("click", plantSeed);
 
 async function plantSeed(e) {
     const xPos = e.x;
@@ -32,7 +34,6 @@ function addSpan(id, xPos, yPos, code) {
     newSpan.id = `emoji-${id}`;
     newSpan.classList.add('plant');
     newSpan.innerHTML = `&#${code};`;
-    const spanHeight = 42;
     newSpan.style.fontSize = spanHeight + 'px';
     newSpan.style.position = 'absolute';
     newSpan.style.left = xPos - (spanHeight / 2) + 'px';
@@ -97,3 +98,18 @@ async function maturePlant(id) {
 
 /* START PAGE */
 loadGarden();
+
+/* FLOATING INITIAL SEED */
+const initialSeed = document.querySelector("#seed-container");
+initialSeed.addEventListener("click", stopSeed);
+window.addEventListener("mousemove", moveSeed);
+
+function moveSeed(e) {
+    initialSeed.style.left = e.pageX - (spanHeight / 2) + 'px';
+    initialSeed.style.top = e.pageY - (spanHeight) + 'px';
+}
+
+function stopSeed(e) {
+    initialSeed.style.visibility = "hidden";
+    plantSeed(e);
+}

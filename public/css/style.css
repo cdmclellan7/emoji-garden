@@ -18,3 +18,14 @@ body {
     width: 100%;
     background-color: rgb(126, 231, 126);
 }
+
+#seed-container {
+    position: absolute;
+}
+
+#seed-description {
+    display: inline;
+    background-color: rgb(246, 228, 193);
+    border-radius: 30px;
+    padding: 1em;
+}
