@@ -39,6 +39,7 @@ body {
     background-color: var(--cream-color);
     border-radius: 30px;
     padding: 0.4em;
+    cursor: pointer;
 }
 
 .active {

@@ -96,17 +96,41 @@ function clearOneEmoji(id) {
 const pomodoroTime = 7000 //25 * 60 * 1000;
 const breakTime = 5000 //5 * 60 * 1000;
 
+const countSeconds = pomodoroTime / 1000;
+let currentCountSeconds = countSeconds;
+let isTimerCounting = false;
+let timerIDs;
 
-function startGrowing(id, e) {
+
+function startGrowing(emojiID, e) {
     removeTimers();
     const timer = createTimer(e);
+    /*
     let countSeconds = pomodoroTime / 1000;
     const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
-    setTimeout( () => {
+    const growTimeID = setTimeout( () => {
         maturePlant(id);
         stopTimer(timer, timerID);
         timer.innerText += " Click to start a break."
     }, pomodoroTime);
+    */
+
+    timerIDs = startTimers(timer, countSeconds, emojiID);
+    isTimerCounting = true;
+    timer.addEventListener("click", () => {
+        console.log("hello");
+        timerIDs = toggleTimers(timer, timerIDs, emojiID);
+    });
+}
+
+function startTimers(p, emojiID) {
+    const growTimeID = setTimeout( () => {
+        maturePlant(emojiID);
+        stopTimer(p, timerID);
+        p.innerText += " Click to start a break."
+    }, currentCountSeconds * 1000);
+    const timerID = setInterval(() => decrementTimer(p, currentCountSeconds--), 1000);
+    return [timerID, growTimeID];
 }
 
 async function maturePlant(id) {
@@ -144,10 +168,24 @@ function stopTimer(p, timerID) {
     audio.play();
     p.innerText = "Time's up!";
     clearTimeout(timerID);
+    currentCountSeconds = countSeconds;
 }
 
 function removeTimers() {
     document.querySelectorAll('.timer').forEach(p => p.remove());
+}
+
+function toggleTimers(p, timerIDs, emojiID) {
+    
+    if (isTimerCounting) {
+        clearInterval(timerIDs[0]);
+        clearTimeout(timerIDs[1]);
+        isTimerCounting = !isTimerCounting;
+    } else {
+        //start new timers
+        isTimerCounting = !isTimerCounting;
+        return startTimers(p, emojiID);
+    }
 }
 
 /*BREAK TIMER */
