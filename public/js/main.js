@@ -101,6 +101,9 @@ let currentCountSeconds = countSeconds;
 let isTimerCounting = false;
 let timerIDs;
 
+const breakSeconds = breakTime / 1000;
+let currentBreakSeconds = breakSeconds;
+
 
 function startGrowing(emojiID, e) {
     removeTimers();
@@ -115,10 +118,9 @@ function startGrowing(emojiID, e) {
     }, pomodoroTime);
     */
 
-    timerIDs = startTimers(timer, countSeconds, emojiID);
+    timerIDs = startTimers(timer, emojiID);
     isTimerCounting = true;
     timer.addEventListener("click", () => {
-        console.log("hello");
         timerIDs = toggleTimers(timer, timerIDs, emojiID);
     });
 }
@@ -169,6 +171,7 @@ function stopTimer(p, timerID) {
     p.innerText = "Time's up!";
     clearTimeout(timerID);
     currentCountSeconds = countSeconds;
+    currentBreakSeconds = breakSeconds;
 }
 
 function removeTimers() {
@@ -188,11 +191,39 @@ function toggleTimers(p, timerIDs, emojiID) {
     }
 }
 
+function startBreakTimers(p) {
+    const seedTimerID = setTimeout( () => {
+        stopTimer(p, timerID);
+        p.innerText += " Plant a new seed."
+        showSeed();
+    }, breakTime);
+    const timerID = setInterval(() => decrementTimer(p, currentBreakSeconds--), 1000);
+    return [timerID, seedTimerID];
+}
+
+function toggleBreakTimers(p, timerIDs) {
+    if (isTimerCounting) {
+        clearInterval(timerIDs[0]);
+        clearTimeout(timerIDs[1]);
+        isTimerCounting = !isTimerCounting;
+    } else {
+        //start new timers
+        isTimerCounting = !isTimerCounting;
+        return startBreakTimers(p);
+    }
+}
+
 /*BREAK TIMER */
 function handleActiveClick(e) {
     makeEmojiInactive(e.target);
     removeTimers();
     const timer = createTimer(e);
+    timerIDs = startBreakTimers(timer);
+    isTimerCounting = true;
+    timer.addEventListener("click", () => {
+        timerIDs = toggleBreakTimers(timer, timerIDs);
+    });
+    /*
     let countSeconds = breakTime / 1000;
     const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
     setTimeout( () => {
@@ -200,6 +231,7 @@ function handleActiveClick(e) {
         timer.innerText += " Plant a new seed."
         showSeed();
     }, breakTime);
+    */
 }
 
 /* START PAGE */
