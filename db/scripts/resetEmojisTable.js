@@ -1,6 +1,6 @@
 import { query } from '../index.js';
 
-const sqlString = `TRUNCATE emojis;`;
+const sqlString = `TRUNCATE emojis RESTART IDENTITY;`;
 
 async function resetEmojisTable() {
     const res = await query(sqlString);
