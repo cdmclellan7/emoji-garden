@@ -26,7 +26,7 @@ async function plantSeed(e) {
     const newEmoji = json.payload;
     renderEmojis(newEmoji);
     
-    startGrowing(newEmoji[0].id);
+    startGrowing(newEmoji[0].id, e);
 }
 
 function addSpan(id, xPos, yPos, code) {
@@ -76,13 +76,21 @@ function clearOneEmoji(id) {
 }
 
 /* TIMER CONTROLS */
+const pomodoroTime = 10000;
 
-function startGrowing(id) {
-    setTimeout( () => maturePlant(id), 5000);
+
+function startGrowing(id, e) {
+    const timer = createTimer(e);
+    let countSeconds = pomodoroTime / 1000;
+    const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
+    setTimeout( () => {
+        maturePlant(id);
+        stopTimer(timer, timerID);
+    }, pomodoroTime);
 }
 
 async function maturePlant(id) {
-    const data = {code: plantEmojiCode};
+    const data = {code: tomatoEmojiCode};
 
     const res = await fetch(`/api/emojis/${id}`, {
         method: 'PATCH',
@@ -94,6 +102,24 @@ async function maturePlant(id) {
     const newEmoji = json.payload;
     clearOneEmoji(newEmoji[0].id)
     renderEmojis(newEmoji);
+}
+
+function createTimer(e) {
+    const timerP = document.createElement("p");
+    timerP.classList.add("timer");
+    timerP.style.left = e.pageX + spanHeight + 'px';
+    timerP.style.top = e.pageY - (spanHeight) + 'px';
+    garden.appendChild(timerP);
+    return timerP;
+}
+
+function decrementTimer(p, time) {
+    p.innerText = time;
+}
+
+function stopTimer(p, timerID) {
+    p.innerText = "Time's up!";
+    clearTimeout(timerID);
 }
 
 /* START PAGE */

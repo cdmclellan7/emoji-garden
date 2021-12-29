@@ -1,3 +1,7 @@
+:root {
+    --cream-color: rgb(246, 228, 193);
+}
+
 body {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
     margin: 0;
@@ -25,7 +29,14 @@ body {
 
 #seed-description {
     display: inline;
-    background-color: rgb(246, 228, 193);
+    background-color: var(--cream-color);
     border-radius: 30px;
     padding: 1em;
+}
+
+.timer {
+    position: absolute;
+    background-color: var(--cream-color);
+    border-radius: 30px;
+    padding: 0.4em;
 }
