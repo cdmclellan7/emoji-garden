@@ -45,6 +45,17 @@ function updateEmojiCode(id, code) {
     const span = document.querySelector(`#emoji-${id}`);
     span.innerHTML = "";
     span.innerHTML = `&#${code};`;
+    return span;
+}
+
+function makeEmojiActive(span) {
+    span.classList.add("active");
+    span.addEventListener("click", handleActiveClick);
+}
+
+function makeEmojiInactive(span) {
+    span.classList.remove("active");
+    span.removeEventListener("click", handleActiveClick);
 }
 
 
@@ -107,7 +118,8 @@ async function maturePlant(id) {
     const json = await res.json();
     const newEmoji = json.payload;
 
-    updateEmojiCode(newEmoji[0].id, newEmoji[0].dec_code);
+    const span = updateEmojiCode(newEmoji[0].id, newEmoji[0].dec_code);
+    makeEmojiActive(span);
 }
 
 function createTimer(e) {
@@ -128,6 +140,22 @@ function decrementTimer(p, count) {
 function stopTimer(p, timerID) {
     p.innerText = "Time's up!";
     clearTimeout(timerID);
+}
+
+function removeTimers() {
+    document.querySelectorAll('.timer').forEach(p => p.remove());
+}
+
+/*BREAK TIMER */
+function handleActiveClick(e) {
+    makeEmojiInactive(e.target);
+    removeTimers();
+    const timer = createTimer(e);
+    let countSeconds = pomodoroTime / 1000;
+    const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
+    setTimeout( () => {
+        stopTimer(timer, timerID);
+    }, pomodoroTime);
 }
 
 /* START PAGE */
