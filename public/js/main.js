@@ -93,7 +93,8 @@ function clearOneEmoji(id) {
 }
 
 /* TIMER CONTROLS */
-const pomodoroTime = 5000 //25 * 60 * 1000;
+const pomodoroTime = 7000 //25 * 60 * 1000;
+const breakTime = 5000 //5 * 60 * 1000;
 
 
 function startGrowing(id, e) {
@@ -138,6 +139,7 @@ function decrementTimer(p, count) {
 }
 
 function stopTimer(p, timerID) {
+    audio.play();
     p.innerText = "Time's up!";
     clearTimeout(timerID);
 }
@@ -151,11 +153,11 @@ function handleActiveClick(e) {
     makeEmojiInactive(e.target);
     removeTimers();
     const timer = createTimer(e);
-    let countSeconds = pomodoroTime / 1000;
+    let countSeconds = breakTime / 1000;
     const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
     setTimeout( () => {
         stopTimer(timer, timerID);
-    }, pomodoroTime);
+    }, breakTime);
 }
 
 /* START PAGE */
@@ -175,3 +177,6 @@ function stopSeed(e) {
     initialSeed.style.visibility = "hidden";
     plantSeed(e);
 }
+
+/* TIMER AUDIO */
+const audio = new Audio('../sounds/bell.wav');
