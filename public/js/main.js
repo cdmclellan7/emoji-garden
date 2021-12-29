@@ -41,6 +41,12 @@ function addSpan(id, xPos, yPos, code) {
     garden.appendChild(newSpan);
 }
 
+function updateEmojiCode(id, code) {
+    const span = document.querySelector(`#emoji-${id}`);
+    span.innerHTML = "";
+    span.innerHTML = `&#${code};`;
+}
+
 
 /* CLEAR AND LOAD GARDEN */
 
@@ -76,7 +82,7 @@ function clearOneEmoji(id) {
 }
 
 /* TIMER CONTROLS */
-const pomodoroTime = 10000;
+const pomodoroTime = 3000;
 
 
 function startGrowing(id, e) {
@@ -100,8 +106,8 @@ async function maturePlant(id) {
 
     const json = await res.json();
     const newEmoji = json.payload;
-    clearOneEmoji(newEmoji[0].id)
-    renderEmojis(newEmoji);
+
+    updateEmojiCode(newEmoji[0].id, newEmoji[0].dec_code);
 }
 
 function createTimer(e) {
