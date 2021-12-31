@@ -73,8 +73,8 @@ function clearGarden() {
     garden.innerHTML = "";
 }
 
-async function loadGarden() {
-    const res = await fetch("/api/emojis");
+async function loadGarden(username) {
+    const res = await fetch(`/api/emojis/${username}`);
     const json = await res.json();
     const emojis = json.payload;
     
@@ -235,8 +235,8 @@ function handleActiveClick(e) {
 }
 
 /* START PAGE */
-loadGarden();
 const username = document.querySelector("#username").innerText;
+loadGarden(username);
 
 /* FLOATING INITIAL SEED */
 const initialSeed = document.querySelector("#seed-container");
