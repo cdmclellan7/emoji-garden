@@ -4,6 +4,8 @@ const plantEmojiCode = 127807;
 
 const spanHeight = 42;
 
+const username = document.querySelector("#username").innerText;
+
 const garden = document.querySelector("#garden");
 //garden.addEventListener("click", plantSeed);
 
@@ -13,6 +15,7 @@ async function plantSeed(e) {
     const code = seedlingEmojiCode;
 
     const data = {
+            username: username,
             code: code,
             xPos: xPos,
             yPos: yPos
@@ -235,7 +238,6 @@ function handleActiveClick(e) {
 }
 
 /* START PAGE */
-const username = document.querySelector("#username").innerText;
 loadGarden(username);
 
 /* FLOATING INITIAL SEED */
