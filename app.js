@@ -87,7 +87,7 @@ app.post("/sign-up", async (req, res, next) => {
     } else {
       const sqlString = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *;`;
       const data = await query(sqlString, [username, hashedPassword]);
-      res.redirect("/");
+      res.redirect(307, "/log-in");
     }
   });
 });
