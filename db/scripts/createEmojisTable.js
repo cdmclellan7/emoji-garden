@@ -2,6 +2,7 @@ import { query } from '../index.js';
 
 const sqlString = `CREATE TABLE IF NOT EXISTS emojis (
     id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users (id),
     dec_code INTEGER,
     x_position INTEGER,
     y_position INTEGER
