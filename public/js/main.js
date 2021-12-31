@@ -236,6 +236,7 @@ function handleActiveClick(e) {
 
 /* START PAGE */
 loadGarden();
+const username = document.querySelector("#username").innerText;
 
 /* FLOATING INITIAL SEED */
 const initialSeed = document.querySelector("#seed-container");
