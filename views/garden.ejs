@@ -5,21 +5,32 @@
   </head>
 
   <body>
-    <div id="garden">
-      <h1>Emoji Garden <span>&#127803;</span></h1>
-
-      <!--
-      <div id="controls-container">
-        <button id="clear-garden">Clear Garden</button>
-        <button id="load-garden">Load Garden</button>
-        <div id="nursery">Plant a Seed<span class="plant" draggable="true">&#127793;</span></div>
+    <% if (user) {%>
+      <div id="garden">
+        <h1>Emoji Garden <span>&#127803;</span> <%= user.username %></h1>
+  
+        <!--
+        <div id="controls-container">
+          <button id="clear-garden">Clear Garden</button>
+          <button id="load-garden">Load Garden</button>
+          <div id="nursery">Plant a Seed<span class="plant" draggable="true">&#127793;</span></div>
+        </div>
+      -->
       </div>
-    -->
-    </div>
-    <div id="seed-container">
-      <span id="initial-seed" class="plant">&#127793;</span>
-      <p id="seed-description">Click to Plant a Seed</p>
-    </div>
-    <script src="js/main.js"></script>
+      <div id="seed-container">
+        <span id="initial-seed" class="plant">&#127793;</span>
+        <p id="seed-description">Click to Plant a Seed</p>
+      </div>
+      <script src="js/main.js"></script>
+    <% } else { %>
+      <h1>please log in</h1>
+      <form action="/log-in" method="POST">
+        <label for="username">Username</label>
+        <input name="username" placeholder="username" type="text" />
+        <label for="password">Password</label>
+        <input name="password" type="password" />
+        <button>Log In</button>
+      </form>
+    <%}%>
   </body>
 </html>

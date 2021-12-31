@@ -65,8 +65,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
+//can access the currentUser in all route handlers
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 app.get("/", (req, res) => {
-  res.render("index", { user: req.user });
+  res.render("index", { user: res.locals.currentUser });
+  //res.render("index", { user: req.user });
 });
 app.get("/sign-up", (req, res) => res.render("sign-up-form"));
 
@@ -110,7 +117,7 @@ app.use('/api/emojis', emojisRouter);
 
 /* GARDEN ROUTE */
 app.get('/garden', (req, res) => {
-  res.render("garden");
+  res.render("garden", { user: res.locals.currentUser });
 })
 /* ******************** */
 
