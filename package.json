@@ -8,7 +8,9 @@
     "test": "node -r dotenv/config --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "nodemon -r dotenv/config ./bin/www.js",
     "db-create-emojis-table": "node -r dotenv/config ./db/scripts/createEmojisTable.js",
-    "db-reset-emojis-table": "node -r dotenv/config ./db/scripts/resetEmojisTable.js"
+    "db-reset-emojis-table": "node -r dotenv/config ./db/scripts/resetEmojisTable.js",
+    "db-create-users-table": "node -r dotenv/config ./db/scripts/createUsersTable.js",
+    "db-reset-users-table": "node -r dotenv/config ./db/scripts/resetUsersTable.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
