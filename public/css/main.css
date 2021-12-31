@@ -1,0 +1,10 @@
+:root {
+    --cream-color: rgb(246, 228, 193);
+    --green-color: rgb(126, 231, 126);
+}
+
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: var(--green-color);
+}
