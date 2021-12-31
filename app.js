@@ -12,6 +12,8 @@ import passport from "passport";
 import LocalStrategy from 'passport-local';
 import bcrypt from 'bcryptjs';
 
+import { query } from "./db/index.js";
+
 import usersRouter  from './routes/users.js';
 import emojisRouter from './routes/emojis.js';
 
@@ -30,27 +32,12 @@ app.use(cookieParser());
 /* AUTHENTICATION */
 passport.use(
   new LocalStrategy(async (username, password, cb) => {
-    /*
-    User.findOne({ username: username }, (err, user) => {
-      if (err) { 
-        return done(err);
-      }
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      }
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect password" });
-      }
-      return done(null, user);
-    });
-    */
     const sqlString = `SELECT id, username, password FROM users WHERE username = $1;`;
     const data = await query(sqlString, [username]);
 
     
     if(data.rows.length > 0) {
-      const first = data.rows[0];
-      
+      const first = data.rows[0];    
       bcrypt.compare(password, first.password, function(err, res) {
         if(res) {
           cb(null, { id: first.id, username: first.username })
@@ -60,22 +47,7 @@ passport.use(
        })
      } else {
        cb(null, false)
-     }
-     
-
-     /*
-    if (data.rows.length > 0) {
-      const first = data.rows[0];
-      console.log("username", first.username);
-      if (password === first.password) {
-        cb(null, { id: first.id, username: first.username })
-      } else {
-        cb(null, false);
-      }
-    } else {
-      cb(null, false);
-    } 
-    */    
+     }  
   })
 );
 
@@ -98,14 +70,11 @@ app.get("/", (req, res) => {
 });
 app.get("/sign-up", (req, res) => res.render("sign-up-form"));
 
-import { query } from "./db/index.js";
 app.post("/sign-up", async (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
   bcrypt.hash(password, 10, async (err, hashedPassword) => {
-    // if err, do something
-    // otherwise, store hashedPassword in DB
     if (err) {
       console.log(err);
     } else {
@@ -132,18 +101,8 @@ app.get("/log-out", (req, res) => {
   res.redirect("/");
 });
 
-
-//app.post('/login', passport.authenticate('local'), users.login)
-
 /* END OF AUTHENTICATION */
 
-/*
-app.use(logger('dev'));
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-*/
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/users', usersRouter);
