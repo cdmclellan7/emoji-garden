@@ -16,6 +16,7 @@
     display: inline;
     background-color: var(--cream-color);
     border-radius: 30px;
+    border: 2px solid var(--dark-color);
     padding: 1em;
 }
 
@@ -23,6 +24,7 @@
     position: absolute;
     background-color: var(--cream-color);
     border-radius: 30px;
+    border: 2px solid var(--dark-color);
     padding: 0.4em;
     cursor: pointer;
 }
