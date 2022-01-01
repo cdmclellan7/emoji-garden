@@ -29,6 +29,10 @@
     cursor: pointer;
 }
 
+.paused {
+    background-color: lightslategray;
+}
+
 .active {
     border: 5px solid yellow;
 }

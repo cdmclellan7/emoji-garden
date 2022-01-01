@@ -102,6 +102,7 @@ const breakTime = 5000 //5 * 60 * 1000;
 const countSeconds = pomodoroTime / 1000;
 let currentCountSeconds = countSeconds;
 let isTimerCounting = false;
+let isTimerFinished = false;
 let timerIDs;
 
 const breakSeconds = breakTime / 1000;
@@ -129,6 +130,7 @@ function startGrowing(emojiID, e) {
 }
 
 function startTimers(p, emojiID) {
+    isTimerFinished = false;
     const growTimeID = setTimeout( () => {
         maturePlant(emojiID);
         stopTimer(p, timerID);
@@ -170,6 +172,7 @@ function decrementTimer(p, count) {
 }
 
 function stopTimer(p, timerID) {
+    isTimerFinished = true;
     audio.play();
     p.innerText = "Time's up!";
     clearTimeout(timerID);
@@ -182,19 +185,23 @@ function removeTimers() {
 }
 
 function toggleTimers(p, timerIDs, emojiID) {
-    
-    if (isTimerCounting) {
-        clearInterval(timerIDs[0]);
-        clearTimeout(timerIDs[1]);
-        isTimerCounting = !isTimerCounting;
-    } else {
-        //start new timers
-        isTimerCounting = !isTimerCounting;
-        return startTimers(p, emojiID);
+    if (!isTimerFinished) {
+        if (isTimerCounting) {
+            p.classList.add("paused");
+            clearInterval(timerIDs[0]);
+            clearTimeout(timerIDs[1]);
+            isTimerCounting = !isTimerCounting;
+        } else {
+            p.classList.remove("paused");
+            //start new timers
+            isTimerCounting = !isTimerCounting;
+            return startTimers(p, emojiID);
+        }
     }
 }
 
 function startBreakTimers(p) {
+    isTimerFinished = false;
     const seedTimerID = setTimeout( () => {
         stopTimer(p, timerID);
         p.innerText += " Plant a new seed."
@@ -205,14 +212,18 @@ function startBreakTimers(p) {
 }
 
 function toggleBreakTimers(p, timerIDs) {
-    if (isTimerCounting) {
-        clearInterval(timerIDs[0]);
-        clearTimeout(timerIDs[1]);
-        isTimerCounting = !isTimerCounting;
-    } else {
-        //start new timers
-        isTimerCounting = !isTimerCounting;
-        return startBreakTimers(p);
+    if (!isTimerFinished) {
+        if (isTimerCounting) {
+            p.classList.add("paused");
+            clearInterval(timerIDs[0]);
+            clearTimeout(timerIDs[1]);
+            isTimerCounting = !isTimerCounting;
+        } else {
+            p.classList.remove("paused");
+            //start new timers
+            isTimerCounting = !isTimerCounting;
+            return startBreakTimers(p);
+        }
     }
 }
 
