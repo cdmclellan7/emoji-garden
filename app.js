@@ -75,7 +75,7 @@ app.get("/", (req, res) => {
   res.render("index", { user: res.locals.currentUser });
   //res.render("index", { user: req.user });
 });
-app.get("/sign-up", (req, res) => res.render("sign-up-form"));
+app.get("/sign-up", (req, res) => res.render("sign-up-form", {message: ""}));
 
 app.post("/sign-up", async (req, res, next) => {
   const username = req.body.username;
@@ -86,8 +86,12 @@ app.post("/sign-up", async (req, res, next) => {
       console.log(err);
     } else {
       const sqlString = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *;`;
-      const data = await query(sqlString, [username, hashedPassword]);
-      res.redirect(307, "/log-in");
+      try {
+        const data = await query(sqlString, [username, hashedPassword]);
+        res.redirect(307, "/log-in");
+      } catch {
+        res.render("sign-up-form", {message: "ERROR: Username already exists"});
+      }
     }
   });
 });
