@@ -11,6 +11,7 @@ import session from "express-session";
 import passport from "passport";
 import LocalStrategy from 'passport-local';
 import bcrypt from 'bcryptjs';
+import flash from 'connect-flash';
 
 import { query } from "./db/index.js";
 
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 /* AUTHENTICATION */
+app.use(flash());
 passport.use(
   new LocalStrategy(async (username, password, cb) => {
     const sqlString = `SELECT id, username, password FROM users WHERE username = $1;`;
@@ -72,9 +74,9 @@ app.use(function(req, res, next) {
 });
 
 app.get("/", (req, res) => {
-  res.render("index", { user: res.locals.currentUser });
-  //res.render("index", { user: req.user });
+  res.render("index", { user: res.locals.currentUser, message: req.flash('error') });
 });
+
 app.get("/sign-up", (req, res) => res.render("sign-up-form", {message: ""}));
 
 app.post("/sign-up", async (req, res, next) => {
@@ -100,7 +102,8 @@ app.post(
   "/log-in",
   passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/"
+    failureRedirect: "/",
+    failureFlash: "Invalid username or password"
   })
 );
 
