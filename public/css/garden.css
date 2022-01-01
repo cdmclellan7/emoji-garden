@@ -3,6 +3,10 @@
     font-size: 42px;
 }
 
+#welcome-banner {
+    margin: 1em;
+}
+
 #garden {
     height: 100%;
     width: 100%;
