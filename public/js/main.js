@@ -112,20 +112,11 @@ let currentBreakSeconds = breakSeconds;
 function startGrowing(emojiID, e) {
     removeTimers();
     const timer = createTimer(e);
-    /*
-    let countSeconds = pomodoroTime / 1000;
-    const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
-    const growTimeID = setTimeout( () => {
-        maturePlant(id);
-        stopTimer(timer, timerID);
-        timer.innerText += " Click to start a break."
-    }, pomodoroTime);
-    */
 
     timerIDs = startTimers(timer, emojiID);
     isTimerCounting = true;
     timer.addEventListener("click", () => {
-        timerIDs = toggleTimers(timer, timerIDs, emojiID);
+        timerIDs = toggleTimers(timer, timerIDs, false, emojiID);
     });
 }
 
@@ -184,7 +175,8 @@ function removeTimers() {
     document.querySelectorAll('.timer').forEach(p => p.remove());
 }
 
-function toggleTimers(p, timerIDs, emojiID) {
+function toggleTimers(p, timerIDs, isBreakTimer, emojiID) {
+    console.log(isBreakTimer);
     if (!isTimerFinished) {
         if (isTimerCounting) {
             p.classList.add("paused");
@@ -195,7 +187,7 @@ function toggleTimers(p, timerIDs, emojiID) {
             p.classList.remove("paused");
             //start new timers
             isTimerCounting = !isTimerCounting;
-            return startTimers(p, emojiID);
+            return (isBreakTimer ? startBreakTimers(p) : startTimers(p, emojiID));
         }
     }
 }
@@ -211,22 +203,6 @@ function startBreakTimers(p) {
     return [timerID, seedTimerID];
 }
 
-function toggleBreakTimers(p, timerIDs) {
-    if (!isTimerFinished) {
-        if (isTimerCounting) {
-            p.classList.add("paused");
-            clearInterval(timerIDs[0]);
-            clearTimeout(timerIDs[1]);
-            isTimerCounting = !isTimerCounting;
-        } else {
-            p.classList.remove("paused");
-            //start new timers
-            isTimerCounting = !isTimerCounting;
-            return startBreakTimers(p);
-        }
-    }
-}
-
 /*BREAK TIMER */
 function handleActiveClick(e) {
     makeEmojiInactive(e.target);
@@ -235,17 +211,8 @@ function handleActiveClick(e) {
     timerIDs = startBreakTimers(timer);
     isTimerCounting = true;
     timer.addEventListener("click", () => {
-        timerIDs = toggleBreakTimers(timer, timerIDs);
+        timerIDs = toggleTimers(timer, timerIDs, true);
     });
-    /*
-    let countSeconds = breakTime / 1000;
-    const timerID = setInterval(() => decrementTimer(timer, countSeconds--), 1000);
-    setTimeout( () => {
-        stopTimer(timer, timerID);
-        timer.innerText += " Plant a new seed."
-        showSeed();
-    }, breakTime);
-    */
 }
 
 /* START PAGE */
