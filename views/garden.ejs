@@ -24,14 +24,16 @@
       </div>
       <script src="js/main.js"></script>
     <% } else { %>
-      <h1>please log in</h1>
+      <h1>Welcome to the Emoji Garden</h1>
+      <h2>Please log-in</h2>
       <form action="/log-in" method="POST">
         <label for="username">Username</label>
         <input name="username" placeholder="username" type="text" />
         <label for="password">Password</label>
-        <input name="password" type="password" />
-        <button>Log In</button>
+        <input name="password" placeholder="password" type="password" />
+        <button class="submit-btn">Log In</button>
       </form>
+      <a class="page-link" href="/sign-up">Sign up here</a>
     <%}%>
   </body>
 </html>
