@@ -206,7 +206,7 @@ function startBreakTimers(p) {
         stopTimer(p, timerID);
         p.innerText += " Plant a new seed."
         showSeed();
-    }, breakTime);
+    }, currentBreakSeconds * 1000);
     const timerID = setInterval(() => decrementTimer(p, currentBreakSeconds--), 1000);
     return [timerID, seedTimerID];
 }
