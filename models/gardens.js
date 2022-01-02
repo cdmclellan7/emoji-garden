@@ -8,6 +8,12 @@ export async function getGardenByUsernameAndName(username, gardenName) {
     return res.rows[0];
 }
 
+export async function getGardensForUser(username) {
+    const sqlString = `SELECT gardens.id, gardens.user_id, gardens.name FROM gardens INNER JOIN users ON gardens.user_id = users.id WHERE users.username = $1;`
+    const res = await query(sqlString, [username]);
+    return res.rows;
+}
+
 /* CREATE */
 export async function addGarden(username, gardenName) {
     const user = getUserByUsername(username);

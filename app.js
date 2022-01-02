@@ -74,7 +74,20 @@ app.use(function(req, res, next) {
 });
 
 app.get("/", (req, res) => {
+  const username = res.locals.currentUser;
   res.render("index", { user: res.locals.currentUser, message: req.flash('error') });
+});
+
+import { getGardensForUser } from './models/gardens.js';
+
+app.get("/dashboard", async (req, res) => {
+  try {
+    const username = res.locals.currentUser.username;
+    const data = await getGardensForUser(username);
+    res.render("dashboard", { user: res.locals.currentUser, message: req.flash('error'), garden: data });
+  } catch {
+    res.redirect("/");
+  }
 });
 
 app.get("/sign-up", (req, res) => res.render("sign-up-form", {message: ""}));
@@ -84,6 +97,7 @@ import { addUserWithDefaultGarden } from './models/users.js';
 app.post("/sign-up", async (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+  const garden = req.body.garden;
 
   bcrypt.hash(password, 10, async (err, hashedPassword) => {
     if (err) {
@@ -92,7 +106,7 @@ app.post("/sign-up", async (req, res, next) => {
       //const sqlString = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *;`;
       try {
         //const data = await query(sqlString, [username, hashedPassword]);
-        const data = await addUserWithDefaultGarden(username, hashedPassword, "defaultName");
+        const data = await addUserWithDefaultGarden(username, hashedPassword, garden);
         res.redirect(307, "/log-in");
       } catch {
         res.render("sign-up-form", {message: "ERROR: Username already exists"});
@@ -104,7 +118,7 @@ app.post("/sign-up", async (req, res, next) => {
 app.post(
   "/log-in",
   passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/dashboard",
     failureRedirect: "/",
     failureFlash: "Invalid username or password"
   })
@@ -124,7 +138,11 @@ app.use('/api/emojis', emojisRouter);
 
 /* GARDEN ROUTE */
 app.get('/garden', (req, res) => {
-  res.render("garden", { user: res.locals.currentUser });
+  try {
+    res.render("garden", { user: res.locals.currentUser, garden: res.locals.currentGarden });
+  } catch {
+    res.redirect("/");
+  }
 })
 /* ******************** */
 

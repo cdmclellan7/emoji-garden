@@ -7,7 +7,8 @@ const plantEmojiCode = 127807;
 const spanHeight = 42;
 
 const username = document.querySelector("#username").innerText;
-const gardenName = "defaultName" //urlParams.get('garden-name');
+const gardenName = urlParams.get("garden");
+document.querySelector("#garden-name").innerText = gardenName;
 
 const garden = document.querySelector("#garden");
 //garden.addEventListener("click", plantSeed);
