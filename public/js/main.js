@@ -99,8 +99,8 @@ function clearOneEmoji(id) {
 const urlParams = new URLSearchParams(window.location.search);
 const pomodoroMinutes = urlParams.get('work-time');
 const breakMinutes = urlParams.get('break-time');
-const pomodoroTime = /*7000*/ pomodoroMinutes * 60 * 1000;
-const breakTime = /*5000*/ breakMinutes * 60 * 1000;
+const pomodoroTime = 7000 //pomodoroMinutes * 60 * 1000;
+const breakTime = 5000 //breakMinutes * 60 * 1000;
 
 const countSeconds = pomodoroTime / 1000;
 let currentCountSeconds = countSeconds;

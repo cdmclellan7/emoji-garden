@@ -59,3 +59,12 @@ form > * {
     border-radius: 10px;
     cursor: pointer;
 }
+
+.submit-btn:hover {
+    background-color: var(--dark-green-color);
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
