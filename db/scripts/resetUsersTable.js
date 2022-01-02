@@ -1,6 +1,6 @@
 import { query } from '../index.js';
 
-const sqlString = `TRUNCATE users RESTART IDENTITY;`;
+const sqlString = `TRUNCATE users RESTART IDENTITY CASCADE;`;
 
 async function resetUsersTable() {
     const res = await query(sqlString);

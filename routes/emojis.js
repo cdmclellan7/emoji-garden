@@ -24,8 +24,8 @@ router.get("/:username", async (req, res) => {
 
 /* CREATE */
 router.post("/", async (req, res) => {
-    const { username, code, xPos, yPos } = req.body;
-    const data = await addEmoji(username, Number(code), Number(xPos), Number(yPos));
+    const { username, gardenName, code, xPos, yPos } = req.body;
+    const data = await addEmoji(username, gardenName, Number(code), Number(xPos), Number(yPos));
     res.json({
         success: true,
         payload: data.rows

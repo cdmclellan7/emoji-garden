@@ -13,7 +13,8 @@
     "db-reset-users-table": "node -r dotenv/config ./db/scripts/resetUsersTable.js",
     "db-create-gardens-table": "node -r dotenv/config ./db/scripts/createGardensTable.js",
     "db-reset-gardens-table": "node -r dotenv/config ./db/scripts/resetGardensTable.js",
-    "db-create-all-tables": "npm run db-create-users-table && npm run db-create-gardens-table && npm run db-create-emojis-table"
+    "db-create-all-tables": "npm run db-create-users-table && npm run db-create-gardens-table && npm run db-create-emojis-table",
+    "db-reset-all-tables": "npm run db-reset-emojis-table && npm run db-reset-gardens-table && npm run db-reset-users-table"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -1,3 +1,5 @@
+const urlParams = new URLSearchParams(window.location.search);
+
 const seedlingEmojiCode = 127793;
 const tomatoEmojiCode = 127813;
 const plantEmojiCode = 127807;
@@ -5,6 +7,7 @@ const plantEmojiCode = 127807;
 const spanHeight = 42;
 
 const username = document.querySelector("#username").innerText;
+const gardenName = "defaultName" //urlParams.get('garden-name');
 
 const garden = document.querySelector("#garden");
 //garden.addEventListener("click", plantSeed);
@@ -16,6 +19,7 @@ async function plantSeed(e) {
 
     const data = {
             username: username,
+            gardenName: gardenName,
             code: code,
             xPos: xPos,
             yPos: yPos
@@ -96,7 +100,6 @@ function clearOneEmoji(id) {
 }
 
 /* TIMER CONTROLS */
-const urlParams = new URLSearchParams(window.location.search);
 const pomodoroMinutes = urlParams.get('work-time');
 const breakMinutes = urlParams.get('break-time');
 const pomodoroTime = 7000 //pomodoroMinutes * 60 * 1000;

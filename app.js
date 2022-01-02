@@ -79,6 +79,8 @@ app.get("/", (req, res) => {
 
 app.get("/sign-up", (req, res) => res.render("sign-up-form", {message: ""}));
 
+import { addUserWithDefaultGarden } from './models/users.js';
+
 app.post("/sign-up", async (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -87,9 +89,10 @@ app.post("/sign-up", async (req, res, next) => {
     if (err) {
       console.log(err);
     } else {
-      const sqlString = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *;`;
+      //const sqlString = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *;`;
       try {
-        const data = await query(sqlString, [username, hashedPassword]);
+        //const data = await query(sqlString, [username, hashedPassword]);
+        const data = await addUserWithDefaultGarden(username, hashedPassword, "defaultName");
         res.redirect(307, "/log-in");
       } catch {
         res.render("sign-up-form", {message: "ERROR: Username already exists"});
