@@ -176,7 +176,6 @@ function removeTimers() {
 }
 
 function toggleTimers(p, timerIDs, isBreakTimer, emojiID) {
-    console.log(isBreakTimer);
     if (!isTimerFinished) {
         if (isTimerCounting) {
             p.classList.add("paused");

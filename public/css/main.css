@@ -1,6 +1,7 @@
 :root {
     --cream-color: rgb(246, 228, 193);
     --green-color: rgb(126, 231, 126);
+    --dark-green-color: rgb(77, 153, 77);
     --dark-color: rgb(5, 5, 104);
 }
 
@@ -13,7 +14,7 @@ body {
         var(--cream-color),
         var(--green-color),
         var(--green-color),
-        var(--cream-color)
+        var(--dark-green-color)
     );
     height: 100vh;
     color: var(--dark-color);
