@@ -1,4 +1,4 @@
-import { query } from '../index.js';
+import { query } from "../src/db/index.js";
 
 const sqlString = `CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
@@ -8,7 +8,7 @@ const sqlString = `CREATE TABLE IF NOT EXISTS users (
 
 async function createUsersTable() {
     const res = await query(sqlString);
-    console.log("Created emojis table", res)
+    console.log("Created emojis table", res);
 }
 
 createUsersTable();

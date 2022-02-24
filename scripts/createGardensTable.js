@@ -1,4 +1,4 @@
-import { query } from '../index.js';
+import { query } from "../src/db/index.js";
 
 const sqlString = `CREATE TABLE IF NOT EXISTS gardens (
     id SERIAL PRIMARY KEY,
@@ -8,7 +8,7 @@ const sqlString = `CREATE TABLE IF NOT EXISTS gardens (
 
 async function createGardensTable() {
     const res = await query(sqlString);
-    console.log("Created gardens table", res)
+    console.log("Created gardens table", res);
 }
 
 createGardensTable();

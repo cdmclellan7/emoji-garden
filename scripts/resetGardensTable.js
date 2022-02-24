@@ -1,4 +1,4 @@
-import { query } from '../index.js';
+import { query } from "../src/db/index.js";
 
 const sqlString = `TRUNCATE gardens RESTART IDENTITY CASCADE;`;
 
